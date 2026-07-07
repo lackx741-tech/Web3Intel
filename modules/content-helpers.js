@@ -1,5 +1,6 @@
 (function (global) {
   const shared = global.WebsiteIntelShared;
+  const SAMPLE_TEXT_LIMIT = 80;
 
   function sampleElements(elements, mapper, limit) {
     return Array.from(elements || []).slice(0, limit || 5).map(function (element) {
@@ -210,7 +211,7 @@
         tables: sampleElements(document.querySelectorAll('table'), describeElement, 3),
         links: sampleElements(links, function (element) {
           return {
-            text: (element.textContent || '').trim().slice(0, 80) || describeElement(element),
+            text: (element.textContent || '').trim().slice(0, SAMPLE_TEXT_LIMIT) || describeElement(element),
             href: element.href
           };
         }, 5),

@@ -4,7 +4,7 @@
   function truncate(value, maxLength) {
     const limit = typeof maxLength === 'number' ? maxLength : MAX_PREVIEW_LENGTH;
     const stringValue = typeof value === 'string' ? value : String(value ?? '');
-    return stringValue.length > limit ? stringValue.slice(0, limit - 1) + '…' : stringValue;
+    return stringValue.length > limit ? stringValue.slice(0, limit) + '…' : stringValue;
   }
 
   function safeJsonParse(value) {

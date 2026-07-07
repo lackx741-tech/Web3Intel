@@ -7,6 +7,8 @@
   const helpers = global.WebsiteIntelContentHelpers;
   const shared = global.WebsiteIntelShared;
   const pendingAnalyses = new Map();
+  const INJECTED_SCRIPT_TIMEOUT_MS = 250;
+  const ANALYSIS_TIMEOUT_MS = 4000;
   let injectedReady = !!global.__WIT_PAGE_INSTALLED__;
   let injectedReadyResolver = null;
   let injectedReadyPromise = injectedReady ? Promise.resolve() : new Promise(function (resolve) {
@@ -118,7 +120,7 @@
     return Promise.race([
       injectedReadyPromise,
       new Promise(function (resolve) {
-        global.setTimeout(resolve, 250);
+        global.setTimeout(resolve, INJECTED_SCRIPT_TIMEOUT_MS);
       })
     ]);
   }
@@ -191,7 +193,7 @@
       const timeoutId = global.setTimeout(function () {
         pendingAnalyses.delete(requestId);
         reject(new Error('Timed out waiting for injected page analysis. Reload the page if this persists.'));
-      }, 4000);
+      }, ANALYSIS_TIMEOUT_MS);
 
       pendingAnalyses.set(requestId, function (payload) {
         global.clearTimeout(timeoutId);

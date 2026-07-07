@@ -39,11 +39,11 @@
         return null;
       }
       if (typeof value === 'string') {
-        return value.length > 320 ? value.slice(0, 319) + '…' : value;
+        return value.length > 320 ? value.slice(0, 320) + '…' : value;
       }
       try {
         const serialized = JSON.stringify(value);
-        return serialized.length > 320 ? serialized.slice(0, 319) + '…' : serialized;
+        return serialized.length > 320 ? serialized.slice(0, 320) + '…' : serialized;
       } catch (error) {
         return Object.prototype.toString.call(value);
       }
