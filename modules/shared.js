@@ -94,12 +94,14 @@
     const lowerPayload = String(payloadPreview).toLowerCase();
     const lowerUrl = String(safeDetails.url || '').toLowerCase();
     const parsedPayload = safeJsonParse(payloadPreview);
+    const hasRpcMethod = !!(parsedPayload && typeof parsedPayload.method === 'string' && /^(eth_|wallet_|net_|personal_)/.test(parsedPayload.method));
+    const hasGraphqlShape = !!(parsedPayload && (typeof parsedPayload.query === 'string' || typeof parsedPayload.operationName === 'string'));
 
     if (parsedPayload && typeof parsedPayload === 'object') {
-      if (parsedPayload.jsonrpc || typeof parsedPayload.method === 'string' && /^(eth_|wallet_|net_|personal_)/.test(parsedPayload.method)) {
+      if (parsedPayload.jsonrpc || hasRpcMethod) {
         return 'JSON-RPC';
       }
-      if (typeof parsedPayload.query === 'string' || typeof parsedPayload.operationName === 'string') {
+      if (hasGraphqlShape) {
         return 'GraphQL';
       }
     }

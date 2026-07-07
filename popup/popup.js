@@ -12,7 +12,7 @@
 
   function getExportFilename(report) {
     const rawHostname = report && report.page && report.page.hostname ? report.page.hostname : 'site';
-    return 'website-intelligence-' + rawHostname.replace(/[^a-z0-9.-]+/gi, '_') + '.json';
+    return 'website-intelligence-' + rawHostname.replace(/[^a-z0-9.-]+/gi, '_').replace(/_+/g, '_') + '.json';
   }
 
   function renderReport(report) {

@@ -166,7 +166,13 @@
 
     XMLHttpRequest.prototype.send = function (body) {
       if (!this.__witMeta) {
-        this.__witMeta = {};
+        this.__witMeta = {
+          method: 'GET',
+          url: '',
+          startedAt: Date.now(),
+          startedPerf: performance.now(),
+          requestPayloadPreview: null
+        };
       }
       this.__witMeta.startedAt = Date.now();
       this.__witMeta.startedPerf = performance.now();
@@ -192,7 +198,7 @@
           url: this.__witMeta.url,
           method: this.__witMeta.method || 'GET',
           timestamp: this.__witMeta.startedAt,
-          duration: performance.now() - this.__witMeta.startedPerf,
+          duration: this.__witMeta.startedPerf ? performance.now() - this.__witMeta.startedPerf : null,
           status: this.status,
           requestPayloadPreview: this.__witMeta.requestPayloadPreview,
           responseSize: responseSize

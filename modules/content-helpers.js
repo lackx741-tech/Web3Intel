@@ -160,7 +160,7 @@
 
   function collectShadowRoots() {
     const shadowHosts = [];
-    const treeWalker = document.createTreeWalker(document.documentElement || document.body, NodeFilter.SHOW_ELEMENT);
+    const treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ELEMENT);
     let currentNode = treeWalker.currentNode;
 
     while (currentNode) {
