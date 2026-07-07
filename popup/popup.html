@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Website Intelligence Toolkit</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Website Intelligence Toolkit</p>
+        <h1>Active Tab Analysis</h1>
+      </div>
+      <div class="actions">
+        <button id="analyzeButton" type="button">Analyze</button>
+        <button id="exportButton" type="button" disabled>Export JSON</button>
+      </div>
+    </header>
+
+    <p id="status" class="status">Ready.</p>
+    <main id="reportRoot" class="report"></main>
+  </div>
+
+  <script src="../modules/shared.js"></script>
+  <script src="../modules/popup-render.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

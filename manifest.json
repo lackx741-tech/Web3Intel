@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Website Intelligence Toolkit",
+  "version": "0.1.0",
+  "description": "Analyze the active website for frameworks, DOM structure, resources, web3 signals, runtime APIs, performance, and security hints.",
+  "permissions": [
+    "activeTab",
+    "cookies",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Website Intelligence Toolkit",
+    "default_popup": "popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "modules/shared.js",
+        "modules/content-helpers.js",
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "injected.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ]
+}
