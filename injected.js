@@ -26,7 +26,10 @@
 
   function classifyPayload(payload) {
     const serialized = safeStringify(payload);
-    if (/"jsonrpc"\s*:\s*"2.0"/i.test(serialized) || /"method"\s*:\s*"(eth_|wallet_|net_|web3_)/i.test(serialized)) {
+    if (
+      /"jsonrpc"\s*:\s*"2\.0"/i.test(serialized) ||
+      /"method"\s*:\s*"(eth_|wallet_|net_|web3_)[^"]*"/i.test(serialized)
+    ) {
       return 'json-rpc-like';
     }
     if (/"query"\s*:|"mutation"\s*:/i.test(serialized)) {

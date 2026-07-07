@@ -6,6 +6,17 @@
     libraries: {},
     frameworks: {}
   };
+  const frameworkDisplayName = {
+    react: 'React',
+    next: 'Next.js',
+    vue: 'Vue',
+    angular: 'Angular',
+    svelte: 'Svelte',
+    preact: 'Preact',
+    solid: 'Solid',
+    astro: 'Astro',
+    nuxt: 'Nuxt'
+  };
 
   if (modules.performance && typeof modules.performance.observePerformance === 'function') {
     modules.performance.observePerformance();
@@ -108,18 +119,13 @@
       .filter((entry) => entry[1])
       .map((entry) => entry[0]);
 
-    frameworks.detected = Array.from(new Set(frameworks.detected.concat(pageFrameworks.map((name) => {
-      if (name === 'next') return 'Next.js';
-      if (name === 'vue') return 'Vue';
-      if (name === 'react') return 'React';
-      if (name === 'angular') return 'Angular';
-      if (name === 'svelte') return 'Svelte';
-      if (name === 'preact') return 'Preact';
-      if (name === 'solid') return 'Solid';
-      if (name === 'astro') return 'Astro';
-      if (name === 'nuxt') return 'Nuxt';
-      return name;
-    }))));
+    frameworks.detected = Array.from(
+      new Set(
+        frameworks.detected.concat(
+          pageFrameworks.map((name) => frameworkDisplayName[name] || name)
+        )
+      )
+    );
 
     return modules.report.buildReport({
       page: pageSummary(),

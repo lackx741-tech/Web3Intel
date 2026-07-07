@@ -12,7 +12,10 @@
       return 'GraphQL';
     }
 
-    if (/"jsonrpc"\s*:\s*"2.0"/i.test(payloadString) || /eth_|wallet_|net_|web3_/i.test(payloadString)) {
+    if (
+      /"jsonrpc"\s*:\s*"2\.0"/i.test(payloadString) ||
+      /"method"\s*:\s*"(eth_|wallet_|net_|web3_)[^"]*"/i.test(payloadString)
+    ) {
       return 'JSON-RPC';
     }
 

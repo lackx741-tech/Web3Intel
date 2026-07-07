@@ -103,15 +103,18 @@
     const blob = new Blob([pretty(result.report)], { type: 'application/json' });
     const blobUrl = URL.createObjectURL(blob);
 
-    const filenameBase = (result.report.page?.title || 'website-intel-report')
+    const rawTitle = result.report.page?.title || '';
+    const sanitizedTitle = rawTitle
       .replace(/[^a-z0-9_-]+/gi, '-')
+      .replace(/^-+|-+$/g, '')
       .slice(0, 50)
       .toLowerCase();
+    const filenameBase = sanitizedTitle || 'website-intel-report';
 
     chrome.downloads.download(
       {
         url: blobUrl,
-        filename: `${filenameBase || 'website-intel-report'}.json`,
+        filename: `${filenameBase}.json`,
         saveAs: true
       },
       () => {

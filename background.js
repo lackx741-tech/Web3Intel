@@ -1,7 +1,7 @@
 const MAX_NETWORK_EVENTS = 500;
 
 const state = {
-  analysesByTab: {},
+  analysisByTab: {},
   networkByTab: {},
   pageSignalsByTab: {}
 };
@@ -26,14 +26,14 @@ async function loadTabState(tabId) {
   const keys = [tabKey('analysis', tabId), tabKey('network', tabId), tabKey('signal', tabId)];
   const stored = await storageGet(keys);
 
-  state.analysesByTab[tabId] = stored[tabKey('analysis', tabId)] || null;
+  state.analysisByTab[tabId] = stored[tabKey('analysis', tabId)] || null;
   state.networkByTab[tabId] = stored[tabKey('network', tabId)] || [];
   state.pageSignalsByTab[tabId] = stored[tabKey('signal', tabId)] || {};
 }
 
 async function persistTabState(tabId) {
   await storageSet({
-    [tabKey('analysis', tabId)]: state.analysesByTab[tabId] || null,
+    [tabKey('analysis', tabId)]: state.analysisByTab[tabId] || null,
     [tabKey('network', tabId)]: state.networkByTab[tabId] || [],
     [tabKey('signal', tabId)]: state.pageSignalsByTab[tabId] || {}
   });
@@ -65,7 +65,7 @@ function classifyApiKind(event) {
   if (type === 'websocket') return 'WebSocket';
   if (type === 'eventsource') return 'SSE';
   if (/graphql/i.test(url) || /"query"\s*:|"mutation"\s*:/i.test(payloadText)) return 'GraphQL';
-  if (/"jsonrpc"\s*:\s*"2.0"|"method"\s*:\s*"(eth_|wallet_|net_|web3_)/i.test(payloadText)) return 'JSON-RPC';
+  if (/"jsonrpc"\s*:\s*"2\.0"|"method"\s*:\s*"(eth_|wallet_|net_|web3_)[^"]*"/i.test(payloadText)) return 'JSON-RPC';
   if (type === 'fetch' || type === 'xhr') return 'REST';
   return 'Unknown';
 }
@@ -143,7 +143,7 @@ async function runAnalysisOnActiveTab() {
   };
 
   report = mergeSignalsIntoReport(report, state.pageSignalsByTab[tabId]);
-  state.analysesByTab[tabId] = report;
+  state.analysisByTab[tabId] = report;
   await persistTabState(tabId);
 
   return { ok: true, tabId, report };
@@ -156,14 +156,14 @@ async function getActiveTabData() {
   }
 
   const tabId = tab.id;
-  if (!state.analysesByTab[tabId] && !state.networkByTab[tabId]) {
+  if (!state.analysisByTab[tabId] && !state.networkByTab[tabId]) {
     await loadTabState(tabId);
   }
 
   return {
     ok: true,
     tabId,
-    report: state.analysesByTab[tabId] || null,
+    report: state.analysisByTab[tabId] || null,
     networkCount: (state.networkByTab[tabId] || []).length
   };
 }
@@ -225,9 +225,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 chrome.tabs.onRemoved.addListener((tabId) => {
-  delete state.analysesByTab[tabId];
+  delete state.analysisByTab[tabId];
   delete state.networkByTab[tabId];
   delete state.pageSignalsByTab[tabId];
 
-  chrome.storage.local.remove([tabKey('analysis', tabId), tabKey('network', tabId), tabKey('signal', tabId)]);
+  chrome.storage.local.remove([tabKey('analysis', tabId), tabKey('network', tabId), tabKey('signal', tabId)], () => {
+    if (chrome.runtime.lastError) {
+      console.warn('Failed to clean stored tab state:', chrome.runtime.lastError.message);
+    }
+  });
 });

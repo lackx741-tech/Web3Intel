@@ -54,7 +54,7 @@ Website Intelligence Toolkit is a real Manifest V3 browser extension for Chrome/
    - Brave: `brave://extensions`
 2. Enable **Developer mode**.
 3. Click **Load unpacked**.
-4. Select this repository folder (`Web3Intel`).
+4. Select this repository root folder.
 5. Open any target website, then click the extension icon.
 6. Click **Analyze / Refresh** to collect data.
 7. Click **Export JSON** to save the report.

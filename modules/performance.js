@@ -18,7 +18,7 @@
       });
       lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
     } catch (error) {
-      // ignored intentionally
+      // Some browsers or contexts do not support this observer type.
     }
 
     try {
@@ -31,7 +31,7 @@
       });
       clsObserver.observe({ type: 'layout-shift', buffered: true });
     } catch (error) {
-      // ignored intentionally
+      // Some browsers or contexts do not support this observer type.
     }
 
     try {
@@ -43,7 +43,7 @@
       });
       longTaskObserver.observe({ type: 'longtask', buffered: true });
     } catch (error) {
-      // ignored intentionally
+      // Some browsers or contexts do not support this observer type.
     }
   }
 
