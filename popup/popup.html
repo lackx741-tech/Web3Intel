@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Intelligence Toolkit</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Website Intelligence Toolkit</h1>
+      <p class="subtitle">Phase 1 analysis dashboard</p>
+    </header>
+
+    <div class="actions">
+      <button id="analyzeBtn">Analyze / Refresh</button>
+      <button id="exportBtn">Export JSON</button>
+    </div>
+
+    <div id="status" class="status">Ready.</div>
+
+    <section>
+      <h2>Overview</h2>
+      <pre id="overview"></pre>
+    </section>
+
+    <section>
+      <h2>Frameworks</h2>
+      <pre id="frameworks"></pre>
+    </section>
+
+    <section>
+      <h2>Web3</h2>
+      <pre id="web3"></pre>
+    </section>
+
+    <section>
+      <h2>DOM</h2>
+      <pre id="dom"></pre>
+    </section>
+
+    <section>
+      <h2>Resources</h2>
+      <pre id="resources"></pre>
+    </section>
+
+    <section>
+      <h2>Storage</h2>
+      <pre id="storage"></pre>
+    </section>
+
+    <section>
+      <h2>Network</h2>
+      <pre id="network"></pre>
+    </section>
+
+    <section>
+      <h2>APIs</h2>
+      <pre id="apis"></pre>
+    </section>
+
+    <section>
+      <h2>Performance</h2>
+      <pre id="performance"></pre>
+    </section>
+
+    <section>
+      <h2>Security</h2>
+      <pre id="security"></pre>
+    </section>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

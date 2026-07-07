@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Website Intelligence Toolkit",
+  "version": "1.0.0",
+  "description": "Analyze frameworks, web3 signals, DOM, resources, storage, network activity, performance, and security characteristics of the active tab.",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting",
+    "storage",
+    "downloads"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Website Intelligence Toolkit",
+    "default_popup": "popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "modules/framework.js",
+        "modules/dom.js",
+        "modules/resources.js",
+        "modules/storage.js",
+        "modules/performance.js",
+        "modules/security.js",
+        "modules/report.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "injected.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
