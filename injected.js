@@ -3,6 +3,7 @@
     return;
   }
   global.__WIT_PAGE_INSTALLED__ = true;
+  const rpcMethodPatternSource = global.WebsiteIntelShared && global.WebsiteIntelShared.rpcMethodPatternSource || '(?:eth_[A-Za-z0-9_]+|wallet_[A-Za-z0-9_]+|personal_[A-Za-z0-9_]+|net_[A-Za-z0-9_]+)';
 
   const shared = global.WebsiteIntelShared || {
     extractRpcMethods: function (value) {
@@ -12,7 +13,7 @@
           return [parsed.method];
         }
       } catch (error) {
-        const matches = String(value || '').match(/(?:eth_[A-Za-z0-9_]+|wallet_[A-Za-z0-9_]+|personal_[A-Za-z0-9_]+|net_[A-Za-z0-9_]+)/g);
+        const matches = String(value || '').match(new RegExp(rpcMethodPatternSource, 'g'));
         return matches || [];
       }
       return [];
@@ -113,7 +114,7 @@
 
       try {
         const response = await originalFetch.apply(this, arguments);
-        recordNetworkEvent({
+        const eventRecord = {
           channel: 'fetch',
           type: 'fetch',
           url: url,
@@ -122,7 +123,11 @@
           duration: performance.now() - startedPerf,
           status: response.status,
           requestPayloadPreview: requestPayloadPreview,
-          responseSize: await measureResponseSize(response)
+          responseSize: null
+        };
+        recordNetworkEvent(eventRecord);
+        measureResponseSize(response).then(function (responseSize) {
+          eventRecord.responseSize = responseSize;
         });
         return response;
       } catch (error) {

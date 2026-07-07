@@ -48,12 +48,12 @@
     }
     const blob = new Blob([JSON.stringify(currentReport, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = getExportFilename(currentReport);
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = getExportFilename(currentReport);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
     URL.revokeObjectURL(url);
   }
 

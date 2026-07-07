@@ -1,6 +1,9 @@
 (function (global) {
   const shared = global.WebsiteIntelShared;
   const SAMPLE_TEXT_LIMIT = 80;
+  const NEXT_ASSET_PATTERN = /\/_next\//;
+  const NUXT_ASSET_PATTERN = /\/_nuxt\//;
+  const ASTRO_ASSET_PATTERN = /\/_astro\//;
 
   function sampleElements(elements, mapper, limit) {
     return Array.from(elements || []).slice(0, limit || 5).map(function (element) {
@@ -77,7 +80,7 @@
         confidence: 'high',
         matches: [
           document.getElementById('__NEXT_DATA__') ? 'Next.js __NEXT_DATA__ script present' : null,
-          scriptSources.some(function (src) { return /\/_next\//.test(src); }) ? 'Next.js asset path detected' : null
+          scriptSources.some(function (src) { return NEXT_ASSET_PATTERN.test(src); }) ? 'Next.js asset path detected' : null
         ]
       },
       {
@@ -127,7 +130,7 @@
         confidence: 'high',
         matches: [
           document.querySelector('astro-island') ? 'Astro island component found' : null,
-          scriptSources.some(function (src) { return /\/_astro\//.test(src); }) ? 'Astro asset path detected' : null
+          scriptSources.some(function (src) { return ASTRO_ASSET_PATTERN.test(src); }) ? 'Astro asset path detected' : null
         ]
       },
       {
@@ -135,7 +138,7 @@
         confidence: 'high',
         matches: [
           document.getElementById('__nuxt') ? 'Nuxt root element present' : null,
-          scriptSources.some(function (src) { return /\/_nuxt\//.test(src); }) ? 'Nuxt asset path detected' : null
+          scriptSources.some(function (src) { return NUXT_ASSET_PATTERN.test(src); }) ? 'Nuxt asset path detected' : null
         ]
       }
     ];
@@ -240,7 +243,7 @@
     const scripts = shared.unique(Array.from(document.querySelectorAll('script[src]')).map(function (element) {
       return shared.normalizeUrl(element.src, baseUrl);
     }).concat(performanceUrls.filter(function (url) {
-      return /\.m?js(\?|$)|\/_next\/|\/_nuxt\/|\/_astro\//i.test(url);
+      return /\.m?js(\?|$)/i.test(url) || NEXT_ASSET_PATTERN.test(url) || NUXT_ASSET_PATTERN.test(url) || ASTRO_ASSET_PATTERN.test(url);
     })));
     const stylesheets = shared.unique(Array.from(document.querySelectorAll('link[rel~="stylesheet"][href]')).map(function (element) {
       return shared.normalizeUrl(element.href, baseUrl);

@@ -1,5 +1,6 @@
 (function (global) {
   const MAX_PREVIEW_LENGTH = 320;
+  const RPC_METHOD_PATTERN_SOURCE = '(?:eth_[A-Za-z0-9_]+|wallet_[A-Za-z0-9_]+|personal_[A-Za-z0-9_]+|net_[A-Za-z0-9_]+)';
 
   function truncate(value, maxLength) {
     const limit = typeof maxLength === 'number' ? maxLength : MAX_PREVIEW_LENGTH;
@@ -137,7 +138,7 @@
           return;
         }
 
-        const matches = value.match(/(?:eth_[A-Za-z0-9_]+|wallet_[A-Za-z0-9_]+|personal_[A-Za-z0-9_]+|net_[A-Za-z0-9_]+)/g);
+        const matches = value.match(new RegExp(RPC_METHOD_PATTERN_SOURCE, 'g'));
         if (matches) {
           matches.forEach(function (match) {
             methods.push(match);
@@ -204,6 +205,7 @@
     isThirdPartyUrl: isThirdPartyUrl,
     normalizeUrl: normalizeUrl,
     previewValue: previewValue,
+    rpcMethodPatternSource: RPC_METHOD_PATTERN_SOURCE,
     safeJsonParse: safeJsonParse,
     truncate: truncate,
     unique: unique

@@ -48,7 +48,7 @@ async function analyzeActiveTab() {
 
   const response = await chrome.tabs.sendMessage(tab.id, { type: 'WIT_BEGIN_ANALYSIS' });
   if (!response || !response.ok) {
-    throw new Error(response && response.error ? response.error : 'The content script did not return a report. Reload the page and try again.');
+    throw new Error(response && response.error ? response.error : 'Analysis failed to complete. Please reload the page and ensure the extension has proper permissions.');
   }
 
   const report = response.report;
