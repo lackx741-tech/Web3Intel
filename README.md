@@ -36,7 +36,7 @@ Website Intelligence Toolkit is a real Manifest V3 browser extension for Chromiu
    - Brave: `brave://extensions`
 3. Enable **Developer mode**.
 4. Click **Load unpacked**.
-5. Select the repository root: `/home/runner/work/Web3Intel/Web3Intel`.
+5. Select the repository root (the folder containing `manifest.json`).
 6. Open any HTTP or HTTPS page.
 7. Click the extension icon and press **Analyze** if analysis does not run automatically.
 
@@ -61,7 +61,7 @@ Website Intelligence Toolkit is a real Manifest V3 browser extension for Chromiu
 This repository includes a lightweight `npm test` command that performs syntax checks for the JavaScript files and validates the manifest JSON.
 
 ```bash
-cd /home/runner/work/Web3Intel/Web3Intel
+cd <path-to-repository>
 npm test
 ```
 

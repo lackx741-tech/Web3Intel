@@ -238,7 +238,8 @@
       return socket;
     }
 
-    WrappedWebSocket.prototype = OriginalWebSocket.prototype;
+    WrappedWebSocket.prototype = Object.create(OriginalWebSocket.prototype);
+    WrappedWebSocket.prototype.constructor = WrappedWebSocket;
     Object.keys(OriginalWebSocket).forEach(function (key) {
       WrappedWebSocket[key] = OriginalWebSocket[key];
     });
@@ -265,7 +266,8 @@
       return instance;
     }
 
-    WrappedEventSource.prototype = OriginalEventSource.prototype;
+    WrappedEventSource.prototype = Object.create(OriginalEventSource.prototype);
+    WrappedEventSource.prototype.constructor = WrappedEventSource;
     Object.keys(OriginalEventSource).forEach(function (key) {
       WrappedEventSource[key] = OriginalEventSource[key];
     });

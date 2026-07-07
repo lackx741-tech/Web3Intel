@@ -211,7 +211,7 @@
         tables: sampleElements(document.querySelectorAll('table'), describeElement, 3),
         links: sampleElements(links, function (element) {
           return {
-            text: (element.textContent || '').trim().slice(0, SAMPLE_TEXT_LIMIT) || describeElement(element),
+            text: (element.textContent || '').trim().slice(0, SAMPLE_TEXT_LIMIT) || 'No text',
             href: element.href
           };
         }, 5),

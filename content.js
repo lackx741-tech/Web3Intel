@@ -192,7 +192,7 @@
       const requestId = 'wit-' + Date.now() + '-' + Math.random().toString(36).slice(2);
       const timeoutId = global.setTimeout(function () {
         pendingAnalyses.delete(requestId);
-        reject(new Error('Timed out waiting for injected page analysis. Reload the page if this persists.'));
+        reject(new Error('Timed out waiting for page-context analysis. Reload the page or retry Analyze if the injected script did not initialize in time.'));
       }, ANALYSIS_TIMEOUT_MS);
 
       pendingAnalyses.set(requestId, function (payload) {
