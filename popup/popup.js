@@ -10,6 +10,11 @@
     statusElement.classList.toggle('error', !!isError);
   }
 
+  function getExportFilename(report) {
+    const rawHostname = report && report.page && report.page.hostname ? report.page.hostname : 'site';
+    return 'website-intelligence-' + rawHostname.replace(/[^a-z0-9.-]+/gi, '_') + '.json';
+  }
+
   function renderReport(report) {
     currentReport = report;
     exportButton.disabled = !report;
@@ -41,13 +46,11 @@
     if (!currentReport) {
       return;
     }
-
     const blob = new Blob([JSON.stringify(currentReport, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
-    const hostname = currentReport.page && currentReport.page.hostname ? currentReport.page.hostname.replace(/[^a-z0-9.-]+/gi, '_') : 'site';
     anchor.href = url;
-    anchor.download = 'website-intelligence-' + hostname + '.json';
+    anchor.download = getExportFilename(currentReport);
     anchor.click();
     URL.revokeObjectURL(url);
   }

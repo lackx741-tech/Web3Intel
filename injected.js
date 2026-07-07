@@ -473,9 +473,9 @@
         const parts = entry.split('|');
         return { name: parts[0], reason: parts[1] };
       }),
-      rpcMethodsObserved: shared.unique(state.networkEvents.flatMap(function (event) {
-        return event.rpcMethods || [];
-      })),
+      rpcMethodsObserved: shared.unique(state.networkEvents.reduce(function (allMethods, event) {
+        return allMethods.concat(event.rpcMethods || []);
+      }, [])),
       signals: signals
     };
   }

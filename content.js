@@ -7,7 +7,7 @@
   const helpers = global.WebsiteIntelContentHelpers;
   const shared = global.WebsiteIntelShared;
   const pendingAnalyses = new Map();
-  const INJECTED_SCRIPT_TIMEOUT_MS = 250;
+  const INJECTED_SCRIPT_TIMEOUT_MS = 1000;
   const ANALYSIS_TIMEOUT_MS = 4000;
   let injectedReady = !!global.__WIT_PAGE_INSTALLED__;
   let injectedReadyResolver = null;
